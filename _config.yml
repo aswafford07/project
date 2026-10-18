@@ -1,0 +1,8 @@
+title: Me
+url: https://aswafford07.github.io/project/
+
+exclude:
+  - vendor/
+  - bundle/
+  - Gemfile
+  - Gemfile.lock
