@@ -47,10 +47,8 @@ jobs:
       # Replace 'npm run build' or add your custom ruby static build steps here if needed
       - name: Build Static Site
         run: |
-          mkdir -p dist
-          echo "<h1>Hello from GitHub Pages!</h1>" > dist/index.html
-          # If using Jekyll: bundle exec jekyll build -d dist
-          # If using custom scripts: npm run build
+          bundle install
+          bundle exec jekyll build -d dist
 
       # 5. Configure GitHub Pages environment metadata
       - name: Setup Pages
