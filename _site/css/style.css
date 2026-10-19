@@ -1,8 +1,0 @@
-.navbar {
-	display: flex;
-	gap: 1em;
-}
-
-.navbar-item {
-	flex-grow: 0;
-}

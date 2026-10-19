@@ -13,3 +13,31 @@ title: TCP
 <h2>
 	<i>How</i> TCP?
 </h2>
+<h3>
+	The Three-Way Handshake
+</h3>
+<p>
+	A TCP connection is initiated through a handshake, consisting of a SYN (synchronize) from the client, a SYN-ACK (synchronize-acknowledge) from the server, and an ACK (acknowledge) from the client.
+</p>
+<h3>
+	Data Transmission
+</h3>
+<p>
+	TCP separates parts of a block of data and splits it into segments.
+	Each of these segments gets a unique sequence number, so the receiver
+	can put the pieces back in the right order upon receiving the data. Upon transmission of a segment, the sender notes down the time the packet was originally transmitted. This will become important later.
+</p>
+<p>
+	As the receiver parses each segment, it sends an ACK
+	message back to the sender to... acknowledge the retrieval. If this
+	message is not received by the sender after the time surpasses the
+	original transmission time + a configurable timeout, the sender
+	transmits the original message again and repeats the process until it
+	receives an ACK or times out.
+</p>
+<h3>
+	Connection Termination
+</h3>
+<p>
+	A TCP connection is terminated via a FIN (Finish) from the client, an ACK from the server, a FIN from the server, and an ACK from the client, in that order.
+</p>

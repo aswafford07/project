@@ -4,13 +4,14 @@
 	<title>{{ page.title }}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Would rather not have robots scraping this -->
 	<meta name="robots" content="noindex, nofollow">
 	<link href="/css/style.css" rel="stylesheet" media="screen">
 </head>
 <body>
+	<!-- TODO have all of the "parts" in order on the left, and have the extra stuff on the right -->
 	<div class="navbar">
-		{% for item in site.data.navbar %}
-		<a href="{{ item.link }}" {% if page.url == item.link %}class="navbar-item-active"{% else %}class="navbar-item"{% endif %}>{{ item.name }}</a>
+		{% for item in site.data.navbar %}<a href="{{ item.link }}" {% if page.url == item.link %}class="navbar-item-active"{% else %}class="navbar-item"{% endif %}>{{ item.name }}</a>
 		{% endfor %}
 	</div>
 

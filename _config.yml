@@ -1,4 +1,4 @@
-title: Me
+title: Project
 url: https://aswafford07.github.io/project/
 
 exclude:
@@ -6,3 +6,8 @@ exclude:
   - bundle/
   - Gemfile
   - Gemfile.lock
+  - .prettierrc
+  - README
+
+plugins:
+  - jekyll-prettier

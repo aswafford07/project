@@ -2,3 +2,159 @@
 layout: default
 title: HTTP
 ---
+<h1>
+	Why HTTP?
+</h1>
+<img src="media/http.svg" alt="HTTP Logo" width="200">
+<p>
+	TCP is good for transmitting raw data, but it doesn't provide a
+	standard method of <i>describing</i> that data. HTTP attempts to fill
+	that gap, though how well it fills it depends on the person you ask.
+</p>
+<h1>
+	<i>How</i> HTTP?
+</h1>
+<p>
+	HTTP is less so a protocol, and more so a structure. This will become
+	obvious as you read more on it.
+</p>
+<section>
+<h2>
+	Request (from the client)
+</h2>
+<h3>
+	The Header
+</h3>
+<p>
+	The HTTP header is the only thing differentiating an HTTP request from
+	any normal TCP connection. <b>All characters transmitted here must be in
+	the ASCII character set.</b>
+</p>
+<h4>
+	Request Method
+</h4>
+<p>
+	The first part of an HTTP request is the HTTP method. There are many
+	methods specified by the standard, but we will only gloss over the two
+	most important and common ones. These are case sensitive and must
+	always be transmitted as uppercase ASCII characters.
+</p>
+<h5>
+	GET
+</h5>
+<p>
+	Requests to "GET" some information at an endpoint on the server.
+</p>
+<h5>
+	POST
+</h5>
+<p>
+	Requests to change some information at an endpoint on the server. It's
+	name is really a historical accident -- it was originally intended to
+	be used for "POST"ing to bulletin board systems, and later forums, but
+	it ended up being used for way more than that.
+</p>
+<h4>
+	Uniform Resource Identifier
+</h4>
+<p>
+	... is a fancy way of saying a path on the server. As HTTP headers can
+	only contain ASCII characters, we have to have a way to encode certain
+	characters that aren't ASCII. This is where percent-encoding comes
+	into play: all non-ASCII characters are safely converted to a string
+	%hex, where "hex" is the hexadecimal representation of the byte. For
+	example, a UTF-8 space would be represented as "%20".
+</p>
+<h4>
+	HTTP Version
+</h4>
+<p>
+	Finally, the HTTP version is stored at the end of the first line of
+	the header. It is stored as "HTTP/" + version, such that HTTP 1.1 is
+	written as "HTTP/1.1".
+</p>
+<h3>
+	The Header(s)
+</h3>
+<p>
+	You thought we were done? This is where we get to the juicy bits...
+	the client identifies itself ("User-Agent"), details which type of
+	content it accepts ("Accepts"), details which languages it accepts
+	("Content-Language"), details which host it is requesting data from
+	("Host"), etc.
+</p>
+<p>
+	These are all in the format "Name: Value\n", where \n is a newline character.
+</p>
+<h3>
+	The Data (if applicable)
+</h3>
+<p>
+	If the request method is one that contains extra data, such as the POST request,
+	this is where that data will be stored.
+</p>
+</section>
+<section>
+<h2>
+	Response
+</h2>
+<p>
+	The response is mostly the same, but contains some important differences.
+</p>
+<h3>
+	The Header
+</h3>
+<h4>
+	HTTP Version
+</h4>
+<p>
+	In the same format as the client.
+</p>
+<h4>
+	Status Code
+</h4>
+<p>
+	This is a decimal number XYY consisting of two parts, the class (X)
+	and the message (YY).
+</p>
+<h5>
+	Class
+</h5>
+<p>
+	The class of the message (not to be confused with class as in OOP)
+	represents which type of response it is. For example, the class 2
+	is a success value, 4 means client error, and 5 means server error.
+</p>
+<h5>
+	Message
+</h5>
+<p>
+	The message is specific to each class, and defines what the error
+	actually is. For example, for status code 404 (class 4, message 04),
+	the status code means "File Not Found", while status code 410 means
+	"Gone".
+</p>
+<h4>
+	Status Code Description
+</h4>
+<p>
+	This is a (possibly server-specific) description of the error code.
+	Usually these will align with the recommended descriptions in the
+	HTTP standard.
+</p>
+<h3>
+	The Header(s)
+</h3>
+<p>
+	These describe the response data. For example, the "Compression"
+	header describes which format the data is compressed in. This is
+	most commonly gzip. They are in the same format as the client
+	headers.
+</p>
+<h3>
+	Data
+</h3>
+<p>
+	The data associated with the URI in the request.
+</p>
+</section>
