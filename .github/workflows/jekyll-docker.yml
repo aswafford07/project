@@ -34,7 +34,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-node-version: '20' # Uses latest LTS version of Node
+          node-version: '20' # Uses latest LTS version of Node
           cache: 'npm'           # Automatically caches npm dependencies if package-lock.json exists
 
       # 2. Install Prettier and check code formatting
