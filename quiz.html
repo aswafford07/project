@@ -1,0 +1,216 @@
+---
+layout: default
+title: Quiz
+---
+<h1>Self-assessment quiz</h1>
+<!-- This stuff could be much better, but it's okay for now. Most importantly
+  things should not be hardcoded like they are now. -->
+<form onsubmit="handle_submit(event)" onreset="reset()">
+	<div>
+		<label for="q1">What is the error code for "File Not Found"?</label>
+		<input id="q1" type="text" required>
+	</div>
+
+	<div>
+		<label for="q2">Which character set should HTTP headers be in?</label>
+		<input id="q2" type="text" required>
+	</div>
+
+	<fieldset>
+		<legend>In what format are HTTP status codes?</legend>
+
+		<div>
+			<input type="radio" id="q3-o1" name="q3" required>
+			<label for="q3-o1">XYY</label>
+		</div>
+
+		<div>
+			<input type="radio" id="q3-o2" name="q3" required>
+			<label for="q3-o2">XXY</label>
+		</div>
+
+		<div>
+			<input type="radio" id="q3-o3" name="q3" required>
+			<label for="q3-o3">XYZ</label>
+		</div>
+
+		<div>
+			<input type="radio" id="q3-o4" name="q3" required>
+			<label for="q3-o4">YYX</label>
+		</div>
+	</fieldset>
+
+	<fieldset>
+		<legend>Which HTTP request contains data?</legend>
+
+<div>
+		<input type="radio" id="q4-o1" name="q4" required>
+		<label for="q4-o1">GET</label>
+</div>
+<div>
+		<input type="radio" id="q4-o2" name="q4" required>
+		<label for="q4-o2">HEAD</label>
+</div>
+<div>
+		<input type="radio" id="q4-o3" name="q4" required>
+		<label for="q4-o3">POST</label>
+</div>
+<div>
+		<input type="radio" id="q4-o4" name="q4" required>
+		<label for="q4-o4">DELETE</label>
+</div>
+	</fieldset>
+
+	<fieldset>
+		<legend>How many steps are required to initiate a TCP connection?</legend>
+
+<div>
+		<input type="radio" id="q5-o1" name="q5" required>
+		<label for="q5-o1">1</label>
+</div>
+<div>
+		<input type="radio" id="q5-o2" name="q5" required>
+		<label for="q5-o2">2</label>
+</div>
+<div>
+		<input type="radio" id="q5-o3" name="q5" required>
+		<label for="q5-o3">3</label>
+</div>
+<div>
+		<input type="radio" id="q5-o4" name="q5" required>
+		<label for="q5-o4">4</label>
+</div>
+	</fieldset>
+
+	<fieldset>
+		<legend>The HTML header includes:</legend>
+
+<div>
+		<input type="checkbox" id="q6-o1" name="q6">
+		<label for="q6-o1">Headers</label>
+</div>
+<div>
+		<input type="checkbox" id="q6-o2" name="q6">
+		<label for="q6-o2">HTTP Version</label>
+</div>
+<div>
+		<input type="checkbox" id="q6-o3" name="q6">
+		<label for="q6-o3">Method</label>
+</div>
+<div>
+		<input type="checkbox" id="q6-o4" name="q6">
+		<label for="q6-o4">IP Address</label>
+</div>
+	</fieldset>
+
+	<input type="submit">
+	<input type="reset" value="Reset Form">
+</form>
+<div style="visibility: hidden;" id="results">
+	<p id="score"></p>
+
+	<span id="q1-res"></span><br>
+	<span id="q2-res"></span><br>
+	<span id="q3-res"></span><br>
+	<span id="q4-res"></span><br>
+	<span id="q5-res"></span><br>
+	<span id="q6-res"></span><br>
+</div>
+<script>
+	let TIME_STARTED = null;
+	let TIMER = null;
+
+	function handle_submit(event)
+	{
+		clearTimeout(TIMER);
+
+		if (event !== null)
+			event.preventDefault();
+
+		function q1_score()
+		{
+			return (document.getElementById("q1").value === "404") ? 1.0 : 0.0;
+		}
+
+		function q2_score()
+		{
+			return (document.getElementById("q2").value === "ASCII") ? 1.0 : 0.0;
+		}
+
+		function q3_score()
+		{
+			return ((document.getElementById("q3-o1").checked === true)) ? 1.0 : 0.0;
+		}
+
+		function q4_score()
+		{
+			return (document.getElementById("q4-o3").checked === true) ? 1.0 : 0.0;
+		}
+
+		function q5_score()
+		{
+			return (document.getElementById("q5-o3").checked === true) ? 1.0 : 0.0;
+		}
+
+		function q6_score()
+		{
+			let i = 0.0;
+
+			if (document.getElementById("q6-o1").checked === true) i += 0.25;
+			if (document.getElementById("q6-o2").checked === true) i += 0.25;
+			if (document.getElementById("q6-o3").checked === true) i += 0.25;
+			if (document.getElementById("q6-o4").checked === false) i += 0.25;
+
+			return i;
+		}
+
+		function chk()
+		{
+			let i = 0.0;
+
+			i += q1_score();
+			i += q2_score();
+			i += q3_score();
+			i += q4_score();
+			i += q5_score();
+			i += q6_score();
+
+			return i;
+		}
+
+		let score = chk();
+
+		let passed = ((score / 6.0) > 0.70);
+
+		let finish = Date.now();
+
+		document.getElementById("results").style = "visibility: visible;";
+
+		let p = document.getElementById("score");
+		p.innerHTML = "You " + (passed ? "passed" : "failed") + " with a score of " + score + "/6 in " + ((finish - TIME_STARTED) / 1000) + " seconds.";
+
+		document.getElementById("q1-res").innerHTML = "<span style=\"color:red;\">Question 1</span>: The correct answer was <strong>404</strong>. You received <strong>" + q1_score() + "</strong> points.";
+		document.getElementById("q2-res").innerHTML = "<span style=\"color:red;\">Question 2</span>: The correct answer was <strong>ASCII</strong>. You received <strong>" + q2_score() + "</strong> points.";
+		document.getElementById("q3-res").innerHTML = "<span style=\"color:red;\">Question 3</span>: The correct answer was <strong>A</strong>. You received <strong>" + q3_score() + "</strong> points.";
+		document.getElementById("q4-res").innerHTML = "<span style=\"color:red;\">Question 4</span>: The correct answer was <strong>C</strong>. You received <strong>" + q4_score() + "</strong> points.";
+		document.getElementById("q5-res").innerHTML = "<span style=\"color:red;\">Question 5</span>: The correct answer was <strong>C</strong>. You received <strong>" + q5_score() + "</strong> points.";
+		document.getElementById("q6-res").innerHTML = "<span style=\"color:red;\">Question 6</span>: The correct answer was <strong>Headers, HTTP Version, and Method</strong>. You received <strong>" + q6_score() + "</strong> points.";
+	}
+
+	function reset()
+	{
+		document.getElementById("results").style = "visibility: hidden;";
+
+		console.log("hello");
+
+		/* Initialize the counter, and auto-submit when the timer runs out */
+		TIME_STARTED = Date.now();
+
+		TIMER = setTimeout(function() {
+			handle_submit(null);
+		}, 1000 * 60 * 10);
+	}
+
+	/* initialize */
+	reset();
+</script>
